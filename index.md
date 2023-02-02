@@ -1,3 +1,1 @@
-# Hey there
-
-This is a WIP site hosted on Github pages.
+A place where I write about things I find interesting enough to talk about.

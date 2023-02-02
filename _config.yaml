@@ -1,4 +1,19 @@
-theme: midnight
-title: waddle's archive of random thoughts
-author: waddle
-description: description?
+plugins:
+- jekyll-remote-theme
+exclude:
+  - LICENSE
+
+title: Stuff I found interesting
+description: A collection of things I found interesting.
+github_username: AreamanM
+url: https://AreamanM.github.io
+lang: en-GB
+
+# remote_theme: mmistakes/jekyll-theme-basically-basic@1.4.5
+
+defaults:
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: post
