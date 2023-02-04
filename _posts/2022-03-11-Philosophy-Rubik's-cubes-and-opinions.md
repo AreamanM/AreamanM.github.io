@@ -2,7 +2,6 @@
 title: "Philosophy, Rubik's cubes and opinions"
 date: 2022-03-11
 layout: post
-sub_title: "Rubik's cubes and arguments in real life have a surprising amount in common"
 ---
 Yesterday, I came across an intriguing principle in philosophy, the idea of transperspectivism. Transperspectivism is defined as the way to seek an understanding of truth through other perspectives and traditions and incorporate them into our own.
 
