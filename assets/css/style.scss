@@ -1,0 +1,14 @@
+---
+---
+
+@import
+  "minima/skins/{{ site.minima.skin | default: 'dark' }}",
+  "minima/initialize";
+
+.site-header {
+  border-top: 0px;
+}
+
+.site-footer {
+  display: none;
+}

@@ -1,1 +1,1 @@
-A place where I write about things I find interesting enough to talk about.
+<h3>Just the stuff left over from integrating my thoughts over a closed loop</h3>

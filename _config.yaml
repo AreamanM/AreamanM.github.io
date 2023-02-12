@@ -1,19 +1,16 @@
 plugins:
-- jekyll-remote-theme
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+
 exclude:
   - LICENSE
 
-title: Stuff I found interesting
-description: A collection of things I found interesting.
-github_username: AreamanM
+remote_theme: jekyll/minima
+minima:
+  skin: dark
+  date_format: "%b %d, %Y"
+
+title: Residue of my thoughts
+description: Just the stuff left over from integrating my thoughts over a closed loop
+tagline: Integrating my thoughts over a loop
 url: https://AreamanM.github.io
-lang: en-GB
-
-# remote_theme: mmistakes/jekyll-theme-basically-basic@1.4.5
-
-defaults:
-  - scope:
-      path: "_posts"
-      type: posts
-    values:
-      layout: post
