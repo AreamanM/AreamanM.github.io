@@ -1,5 +1,5 @@
 ---
-title: "Messy bedroom of thoughts"
+title: "A messy bedroom of thoughts"
 date: Mar 10, 2023
 layout: post
 ---
