@@ -1,0 +1,24 @@
+---
+title: "Messy bedroom of thoughts"
+date: Mar 10, 2023
+layout: post
+---
+I recently came across a blog post on Hacker News titled ["I'm a very slow thinker"](https://sive.rs/slow) in which the author describes how he processes the world around him, and some of the experiences that came with it.
+
+>When someone asks me a deep question, I say, “Hmm. I don’t know.” The next day, I have an answer.
+>
+>I’m a disappointing person to try to debate or attack. I just have nothing to say in the moment, except maybe, “Good point.” Then a few days later, after thinking about it a lot, I have a response.
+
+The post certainly got me thinking about the way I think(yes we're already getting meta), and I decided to write this as an excuse for introspecting on my own way of processing the world. I don't really know how to describe the way I think, but "choatic" seems to fit pretty well. I'll try my best to put it into words.
+
+When I see a question, I tend to immediately end up with a lot of unfinished, and unrelated ideas, they're akin to seeds that have the potential to grow into full fledged answers. Rather than being a connected graph of ideas, there are discontinuities dispersed throughout. What I end up doing is picking one strand, follow it, and either keep iterating on it or realise another, entirely different strand makes more sense. The biggest hurdle is not tunnel visioning on one strand and forcing myself to look around.
+
+As a consequence, I keep jumping from node to node in my thought process and as a result I struggle with organising my discontinous graph of thoughts into a coherent tree and infact, I'm struggling with the very problem while writing this. I have tiny blobs of ideas strewn across my draft seperated by blank lines and I'll cobble bits and pieces together to write this out. It shows much more blatantly in real life though, where I have to make a concious effort to not confuse people by switching topics 20 times in 2 sentences.
+
+On a tangential note, I'm terrible at organisation across the board in everything, and I've sort of just...gotten used to it. Chaos itself needs a certain order, or atleast that's the excuse I'm going with. It definitely won't come across as a surprise if the way one thinks and how organised one is are closely linked.
+
+In a messy bedroom where all of your stuff is visible right in front of you, it's easier to see the "bigger picture" at once. But with a little bit of tidying up and hiding some of the clutter, it's easier to retrieve specific things or add something new to your inventory. It's useful to be able to make connections between ideas that are seemingly different, but not every connection is meaningful, and can often be distracting. It is also equally useful to be able to sort the useful connections from those that aren't, and zoom in on the part of the big picture that actually matters. Over time, I've found more and more value in just _taking time_ on purpose by slowing down. Instead of following impulsive whims as I talk/write/listen, there's value in linearity and just being patient with myself and taking the time to sort through my messy bedroom before I present it to a listener/reader.
+
+Another thought I had while writing this was that a discontinous graph isn't always a bad thing, sure it's hard to translate between a discontinous graph and a linear structure, but mabye I should also learn to embrace the chaos just like I've done with my bag, or room, or all the other infinite disorganised things I'm responsible for. Infact, initially I was going to try my best to make this post "structured" and "continous", but I've had a change of heart and I've decided to just...write out my thoughts as they come. If I can't find a good isomorphism between the ideas in my head and a linear tree of ideas, mabye there isn't one. And if the ideas are worth writing about, then why exclude them just because I can't fit them in an order? (which I often tend to do). Hiding disorder by removing bits and pieces that don't fit into a nice order feels like sweeping things under the rug, sometimes, I just have a messy living room and that's okay.
+
+And there are upsides to having a chaotic bathtub of thoughts that trickle down like a violent waterfall, I'm not half bad at improvising on the spot in general, which has saved me a number of times to give an example. With enough mindfulness, patience and practice, I think it's possible to build a dam between my reservoir of ideas and my active thought process. And mabye, sometimes it's worth letting thoughts flow the way they naturally do. I still don't feel entirely convinced that I've explained what I want to convey properly, but hopefully I'm close enough, because I don't think I'm ever convinced I've explained myself about anything; There's always more, and more, and more.
