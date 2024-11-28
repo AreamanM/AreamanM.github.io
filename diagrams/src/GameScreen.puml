@@ -1,0 +1,75 @@
+@startuml GameScreen
+
+class GameScreen implements Screen
+{
+    - stage: Stage
+    - inputProcessor: InputMultiplexer
+    + render(): void
+    + resize(): void
+    + resume(): void
+}
+
+class World
+{
+    - map: TiledMap
+    + render(): void
+    + resize(): void
+    + scroll(): void
+    + zoom(): void
+    + placeBuilding(): bool
+    + reset(): void
+}
+
+class Timer
+{
+    - remainingTime: Time
+    + getRemainingTime(): String
+    + reset(): void
+}
+
+class InfoBar
+{
+    - stage: Stage
+    + render(): void
+    + resize(): void
+}
+
+class BuildingBar
+{
+    - stage: Stage
+    + render(): void
+    + resize(): void
+}
+
+class GameOverMenu
+{
+    - stage: Stage
+    + render(): void
+    + resize(): void
+}
+
+class BuildingManager
+{
+    + render(): void
+    + isBuildable(): boolean
+    + placeBuilding(): int
+}
+
+class Building
+{
+    - image: Sprite
+    - type: Enum
+    - size: Vector2
+    - position: Vector2
+}
+
+GameScreen *-- "1..1" World
+GameScreen *-- "1..1" Timer
+GameScreen *-- "1..1" InfoBar
+GameScreen *-- "1..1" BuildingBar
+GameScreen *-- "1..1" GameOverMenu
+
+World *-- "1..1" BuildingManager
+BuildingManager *-- "*" Building
+
+@enduml

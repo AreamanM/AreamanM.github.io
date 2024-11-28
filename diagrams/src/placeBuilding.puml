@@ -1,0 +1,12 @@
+@startuml Place Building
+
+actor User
+User -> Event: Left mouse button clicked
+Event -> WorldInputProcessor: touchDown event sent
+WorldInputProcessor -> World: calls pan()
+World -> BuildingManager: place building
+World <- BuildingManager: update buildings on map
+World -> Map: redraw the map
+Map -> User: render the updated map
+
+@enduml
