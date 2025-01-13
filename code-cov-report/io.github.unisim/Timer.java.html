@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Timer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim</a> &gt; <span class="el_source">Timer.java</span></div><h1>Timer.java</h1><pre class="source lang-java linenums">package io.github.unisim;
+
+/**
+ * A simple timer utility that can be updated on each render call.
+ */
+public class Timer {
+  private float remainingTime;
+  private float initialTime;
+  private boolean hasFinished;
+  private int eventNumber;
+  private int initialEvents;
+  private int remainingEvents;
+
+  /**
+   * Create a new timer set to count down from an initial number of milliseconds
+   * for an initial number
+   * of events.
+   *
+   * @param initialTime   - The number of milliseconds before the next event
+   * @param initialEvents - The number of events before the timer ends
+   */
+<span class="fc" id="L22">  public Timer(float initialTime, int initialEvents) {</span>
+<span class="fc" id="L23">    this.initialTime = initialTime;</span>
+<span class="fc" id="L24">    remainingTime = initialTime;</span>
+<span class="fc" id="L25">    hasFinished = false;</span>
+<span class="fc" id="L26">    this.initialEvents = initialEvents;</span>
+<span class="fc" id="L27">    remainingEvents = initialEvents;</span>
+<span class="fc" id="L28">    eventNumber = 0;</span>
+<span class="fc" id="L29">  }</span>
+
+  /**
+   * Removes a provided timestep from the counter and returns whether the timer
+   * has stopped.
+   * Decrements the remaining number of events and resets the remaining time until
+   * the next event.
+   *
+   * @param deltaTime - the time in milliseconds to remove from the counter
+   * @return - true if the timer is running, the time has been decremented and
+   *         there are remaining events,
+   *         false otherwise.
+   */
+  public boolean tick(float deltaTime) {
+<span class="fc" id="L43">    remainingTime -= deltaTime;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    if (remainingTime &gt; 0) {</span>
+<span class="fc" id="L45">      return true;</span>
+    } else {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">      if (remainingEvents &gt; 0) {</span>
+<span class="fc" id="L48">        eventNumber += 1;</span>
+<span class="fc" id="L49">        remainingEvents -= 1;</span>
+<span class="fc" id="L50">        remainingTime = initialTime;</span>
+<span class="fc" id="L51">        return true;</span>
+      } else {
+<span class="fc" id="L53">        hasFinished = true;</span>
+<span class="fc" id="L54">        return false;</span>
+      }
+    }
+  }
+
+  /**
+   * Reset the timer to its' initial time value and the initial number of events.
+   */
+  public void reset() {
+<span class="fc" id="L63">    remainingTime = initialTime;</span>
+<span class="fc" id="L64">    remainingEvents = initialEvents;</span>
+<span class="fc" id="L65">    hasFinished = false;</span>
+<span class="fc" id="L66">  }</span>
+
+  /**
+   * Return the total remaining time until the timer ends in a String
+   * representation.
+   *
+   * @return - time before timer ends in the form MM:SS
+   */
+  public String getRemainingTime() {
+    // get the number of minutes and seconds from the total remaining time in
+    // milliseconds.
+<span class="fc" id="L77">    int totalRemainingTime = (int) (initialTime * (remainingEvents) + remainingTime);</span>
+<span class="fc" id="L78">    int remainingMinutes = (int) ((totalRemainingTime) / 60_000);</span>
+<span class="fc" id="L79">    int remainingSeconds = (int) Math.ceil(totalRemainingTime / 1000 - 60 * remainingMinutes);</span>
+
+<span class="fc" id="L81">    return formatNum(remainingMinutes) + &quot;:&quot; + formatNum(remainingSeconds);</span>
+  }
+
+  /**
+   * Format a number of minutes or seconds to always have a length of two digits.
+   * This is done by prepending a zero if the number has only one digit.
+   *
+   * @param num - the number to convert to a formatted string
+   * @return - a formatted string with length at least two.
+   */
+  private String formatNum(int num) {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">    if (num &lt; 10) {</span>
+<span class="fc" id="L93">      return &quot;0&quot; + num;</span>
+    }
+<span class="fc" id="L95">    return String.valueOf(num);</span>
+  }
+
+  /**
+   * Return whether the timer is still running or has reached zero.
+   *
+   * @return - true if the timer is running, false if the remaining time has
+   *         reached zero
+   */
+  public boolean isRunning() {
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    return !hasFinished;</span>
+  }
+
+  /**
+   * Return the number of events that are due to have happened at this time.
+   *
+   * @return - an integer between 0 and 9.
+   */
+  public int getEventNumber() {
+<span class="fc" id="L114">    return eventNumber;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

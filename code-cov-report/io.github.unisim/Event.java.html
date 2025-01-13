@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Event.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim</a> &gt; <span class="el_source">Event.java</span></div><h1>Event.java</h1><pre class="source lang-java linenums">//package Testing;
+
+
+package io.github.unisim;
+
+import java.util.Random;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedReader;
+
+/**
+ * Generates data to be displayed at each new event.
+ */
+public class Event {
+    private int money;
+    private int points;
+    private String title;
+    private String description;
+
+    /**
+     * Create a new event, which attributes are based on the event number.
+     *
+     * Event zero is triggered at the start of gameplay, which has no money or
+     * points and
+     * title and description provide the user information on how to play.
+     *
+     * Even-numbered events are triggered at the start of each new year. These
+     * events
+     * have positive money, based on the user's score, no points and a title and
+     * description
+     * about the increase in money.
+     *
+     * Odd-numbered events are triggered halfway through each year. The attributes
+     * of these
+     * events are randomly selected from a csv file: randomEvents.csv
+     *
+     * @param eventNumber - The current event number
+     * @param score       - The user's current score
+     */
+<span class="fc" id="L41">    public Event(int eventNumber, int score) {</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (eventNumber == 0) {</span>
+<span class="fc" id="L44">            money = 0;</span>
+<span class="fc" id="L45">            points = 0;</span>
+<span class="fc" id="L46">            title = &quot;Tutorial&quot;;</span>
+<span class="fc" id="L47">            description = &quot;Welcome to your university, select a building from the bottom to place it. Be careful to manage funds&quot;;</span>
+        }
+
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        else if (eventNumber % 2 == 0) {</span>
+<span class="fc" id="L51">            money = (int) (100 * score);</span>
+<span class="fc" id="L52">            points = 0;</span>
+<span class="fc" id="L53">            title = &quot;Funding for year &quot; + Integer.toString(eventNumber / 2 + 1);</span>
+<span class="fc" id="L54">            description = &quot;Currently your students are &quot; + Integer.toString((int) (score))</span>
+<span class="fc" id="L55">                + &quot;% satisfied and your annual funding reflects this. You have received $&quot; + Integer.toString(money)</span>
+                + &quot; this year. Increase your student satisfaction to get more funding next year.&quot;;
+        }
+
+        else {
+<span class="nc" id="L60">            Random rand = new Random();</span>
+<span class="nc" id="L61">            int randInt = rand.nextInt(10);</span>
+
+<span class="nc" id="L63">            File file = new File(&quot;assets/randomEvents.csv&quot;);</span>
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">            if (!file.exists()) {</span>
+<span class="nc" id="L66">                System.out.println(&quot;CSV file not found: randomEvents.csv&quot;);</span>
+<span class="nc" id="L67">                return;</span>
+            }
+
+<span class="nc" id="L70">            try (BufferedReader br = new BufferedReader(new FileReader(file))) {</span>
+                String line;
+
+                // Read each line from the file
+<span class="nc" id="L74">                int lineNumber = 0;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                while ((line = br.readLine()) != null) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                    if (lineNumber == randInt) {</span>
+<span class="nc" id="L77">                        String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                        if (parts.length == 4) {</span>
+<span class="nc" id="L79">                            title = parts[0].trim();</span>
+<span class="nc" id="L80">                            description = parts[1].trim();</span>
+<span class="nc" id="L81">                            money = Integer.parseInt(parts[2].trim());</span>
+<span class="nc" id="L82">                            points = Integer.parseInt(parts[3].trim());</span>
+                        }
+                    }
+<span class="nc" id="L85">                    lineNumber += 1;</span>
+                }
+<span class="nc" id="L87">            } catch (IOException e) {</span>
+<span class="nc" id="L88">                System.out.println(&quot;An error occurred while reading the file: &quot; + e.getMessage());</span>
+<span class="nc" id="L89">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L90">                System.out.println(&quot;Invalid format in the file. Please check the file content.&quot;);</span>
+<span class="nc" id="L91">            }</span>
+        }
+<span class="fc" id="L93">    }</span>
+
+    /**
+     * Return the title of the event.
+     *
+     * @return - a string.
+     */
+    public String getEventTitle() {
+<span class="fc" id="L101">        return title;</span>
+    }
+
+    /**
+     * Return the description of the event.
+     *
+     * @return - a string.
+     */
+    public String getEventDescription() {
+<span class="nc" id="L110">        return description;</span>
+    }
+
+    /**
+     * Return the money value of the event.
+     *
+     * @return - an integer.
+     */
+    public int getEventMoney() {
+<span class="nc" id="L119">        return money;</span>
+    }
+
+    /**
+     * Return the points value of the event.
+     *
+     * @return - an integer.
+     */
+    public int getEventPoints() {
+<span class="nc" id="L128">        return points;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

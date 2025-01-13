@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BuildingMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim.ui</a> &gt; <span class="el_source">BuildingMenu.java</span></div><h1>BuildingMenu.java</h1><pre class="source lang-java linenums">package io.github.unisim.ui;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import io.github.unisim.GameState;
+import io.github.unisim.Point;
+import io.github.unisim.building.Building;
+import io.github.unisim.building.BuildingType;
+import io.github.unisim.world.World;
+import java.util.ArrayList;
+
+/**
+ * Menu used to place buildings in the world by clicking and dragging them
+ * from the list onto the map.
+ */
+@SuppressWarnings({&quot;MemberName&quot;, &quot;AbbreviationAsWordInName&quot;})
+public class BuildingMenu {
+<span class="nc" id="L29">    private Skin skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+    private World world;
+<span class="nc" id="L31">    private ShapeActor bar = new ShapeActor(GameState.UISecondaryColour);</span>
+    private Table nameTable;
+    private Table imageTable;
+    private Table priceTable;
+<span class="nc" id="L35">    private ArrayList&lt;Building&gt; buildings = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L36">    private ArrayList&lt;String&gt; buildingNames = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L37">    private ArrayList&lt;Image&gt; buildingImages = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L38">    private ArrayList&lt;Integer&gt; buildingPrices = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L39">    private Label buildingInfoLabel = new Label(</span>
+<span class="nc" id="L40">        &quot;&quot;, new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;))</span>
+    );
+<span class="nc" id="L42">    private Table buildingInfoTable = new Table();</span>
+
+    /**
+     * Create a Building Menu and attach its actors and components to the provided stage.
+     * Also handles drawing buildings and their flipped variants
+
+     * @param stage - The stage on which to draw the menu.
+     */
+<span class="nc" id="L50">    public BuildingMenu(Stage stage, World world) {</span>
+<span class="nc" id="L51">        this.world = world;</span>
+        // Set building images and sizes
+<span class="nc" id="L53">        buildings.add(new Building(</span>
+<span class="nc" id="L54">            new Texture(Gdx.files.internal(&quot;buildings/restaurant.png&quot;)),</span>
+            0.01f,
+            new Vector2(0.35f, -0.9f),
+            new Point(),
+            new Point(3, 3),
+<span class="nc" id="L59">            false,</span>
+            BuildingType.EATING,
+            &quot;Canteen&quot;,
+<span class="nc" id="L62">            1000</span>
+        ));
+<span class="nc" id="L64">        buildings.add(new Building(</span>
+<span class="nc" id="L65">            new Texture(Gdx.files.internal(&quot;buildings/library.png&quot;)),</span>
+            0.0075f,
+            new Vector2(1.8f, -4.6f),
+            new Point(),
+            new Point(20, 12),
+<span class="nc" id="L70">            false,</span>
+            BuildingType.LEARNING,
+            &quot;Library&quot;,
+<span class="nc" id="L73">            1500</span>
+        ));
+<span class="nc" id="L75">        buildings.add(new Building(</span>
+<span class="nc" id="L76">            new Texture(Gdx.files.internal(&quot;buildings/basketballCourt.png&quot;)),</span>
+            0.0025f,
+            new Vector2(1f, -2.4f),
+            new Point(),
+            new Point(6, 9),
+<span class="nc" id="L81">            false,</span>
+            BuildingType.RECREATION,
+            &quot;Basketball Court&quot;,
+<span class="nc" id="L84">            500</span>
+        ));
+<span class="nc" id="L86">        buildings.add(new Building(</span>
+<span class="nc" id="L87">            new Texture(Gdx.files.internal(&quot;buildings/studentHousing.png&quot;)),</span>
+            0.108f,
+            new Vector2(1.4f, -2.8f),
+            new Point(),
+            new Point(11, 11),
+<span class="nc" id="L92">            false,</span>
+            BuildingType.SLEEPING,
+            &quot;Accomodation&quot;,
+<span class="nc" id="L95">            750</span>
+        ));
+
+<span class="nc" id="L98">        buildings.add(new Building(</span>
+<span class="nc" id="L99">            new Texture(Gdx.files.internal(&quot;buildings/swimmingPool.png&quot;)),</span>
+            0.0025f,
+            new Vector2(1f, -2.4f),
+            new Point(),
+            new Point(6, 9),
+<span class="nc" id="L104">            false,</span>
+            BuildingType.RECREATION,
+            &quot;Pool&quot;,
+<span class="nc" id="L107">            2000</span>
+        ));
+
+
+<span class="nc" id="L111">        nameTable = new Table();</span>
+        // Add buildings to the imageTable
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (int i = 0; i &lt; buildings.size(); i++) {</span>
+
+            //Building Name Row
+<span class="nc" id="L116">            Label buildingName = new Label(buildings.get(i).name, skin);</span>
+<span class="nc" id="L117">            nameTable.add(buildingName);</span>
+        }
+
+<span class="nc" id="L120">        imageTable = new Table();</span>
+        // Add buildings to the imageTable
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        for (int i = 0; i &lt; buildings.size(); i++) {</span>
+<span class="nc" id="L123">            final int buildingIndex = i;</span>
+
+            //Building Image Row
+<span class="nc" id="L126">            buildingImages.add(new Image(buildings.get(i).texture));</span>
+<span class="nc" id="L127">            buildingImages.get(i).addListener(new ClickListener() {</span>
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">                    if (GameState.paused) {</span>
+<span class="nc" id="L131">                        return;</span>
+                    }
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                    if (world.selectedBuilding == buildings.get(buildingIndex)) {</span>
+<span class="nc" id="L134">                        world.selectedBuilding = null;</span>
+                    } else {
+<span class="nc" id="L136">                        world.selectedBuilding = buildings.get(buildingIndex);</span>
+<span class="nc" id="L137">                        buildingInfoLabel.setText(world.selectedBuilding.name + &quot; - Press 'R' to rotate&quot;);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                        if (world.selectedBuilding.flipped) {</span>
+<span class="nc" id="L139">                            world.selectedBuilding.flipped = false;</span>
+<span class="nc" id="L140">                            int temp = world.selectedBuilding.size.x;</span>
+<span class="nc" id="L141">                            world.selectedBuilding.size.x = world.selectedBuilding.size.y;</span>
+<span class="nc" id="L142">                            world.selectedBuilding.size.y = temp;</span>
+<span class="nc" id="L143">                            world.selectedBuildingUpdated = true;</span>
+                        }
+                    }
+<span class="nc" id="L146">                }</span>
+            });
+<span class="nc" id="L148">            imageTable.add(buildingImages.get(i));</span>
+
+        }
+<span class="nc" id="L151">        priceTable = new Table();</span>
+        // Add buildings to the imageTable
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        for (int j = 0; j &lt; buildings.size(); j++) {</span>
+
+            //Building Name Row
+<span class="nc" id="L156">            Label buildingPrice = new Label(&quot;$&quot; + buildings.get(j).price, skin);</span>
+<span class="nc" id="L157">            priceTable.add(buildingPrice);</span>
+        }
+
+
+<span class="nc" id="L161">        buildingInfoTable.add(buildingInfoLabel).expandX().align(Align.center);</span>
+
+<span class="nc" id="L163">        stage.addActor(bar);</span>
+<span class="nc" id="L164">        stage.addActor(nameTable);</span>
+<span class="nc" id="L165">        stage.addActor(imageTable);</span>
+<span class="nc" id="L166">        stage.addActor(priceTable);</span>
+<span class="nc" id="L167">        stage.addActor(buildingInfoTable);</span>
+<span class="nc" id="L168">    }</span>
+
+    /**
+     * Called when the window is resized, scales the building menu images with the window size.
+
+     * @param width - The new width of the window in pixels
+     * @param height - The new height of the window in pixels
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public void resize(int width, int height) {
+<span class="nc" id="L178">        nameTable.setBounds(0, height * 0.13f, width, height * 0.05f);</span>
+<span class="nc" id="L179">        imageTable.setBounds(0, height * 0.07f, width, height * 0.05f);</span>
+<span class="nc" id="L180">        priceTable.setBounds(0, 0, width, height * 0.05f);</span>
+<span class="nc" id="L181">        bar.setBounds(0, 0, width, height * 0.2f);</span>
+<span class="nc" id="L182">        buildingInfoTable.setBounds(0, height * 0.2f, width, height * 0.05f);</span>
+
+<span class="nc bnc" id="L184" title="All 2 branches missed.">        for (Cell nameTableCell : nameTable.getCells()) {</span>
+<span class="nc" id="L185">            nameTableCell.width(width * 0.075f).align(Align.center).padLeft(0.03f * width);</span>
+<span class="nc" id="L186">        }</span>
+
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        for (Cell priceTableCell : priceTable.getCells()) {</span>
+<span class="nc" id="L189">            priceTableCell.width(width * 0.075f).align(Align.center).padLeft(0.03f * width);;</span>
+<span class="nc" id="L190">        }</span>
+
+        // we must perform an unchecked type conversion here
+        // this is acceptable as we know our imageTable only contains instances of Actors
+<span class="nc bnc" id="L194" title="All 2 branches missed.">        for (Cell&lt;Actor&gt; cell : imageTable.getCells()) {</span>
+<span class="nc" id="L195">            Image buildingImage = (Image) (cell.getActor());</span>
+<span class="nc" id="L196">            Vector2 textureSize = new Vector2(buildingImage.getWidth(), buildingImage.getHeight());</span>
+<span class="nc" id="L197">            cell.width(</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">                height * 0.1f * (textureSize.x &lt; textureSize.y ? textureSize.x / textureSize.y : 1)</span>
+<span class="nc" id="L199">            ).height(</span>
+<span class="nc bnc" id="L200" title="All 2 branches missed.">                height * 0.1f * (textureSize.y &lt; textureSize.x ? textureSize.y / textureSize.x : 1)</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            ).pad((0.08f * width) - (height * 0.1f * (textureSize.x &lt; textureSize.y ? textureSize.x / textureSize.y : 1))).align(Align.center);</span>
+<span class="nc" id="L202">        }</span>
+
+<span class="nc" id="L204">        buildingInfoLabel.setFontScale(height * 0.0025f);</span>
+<span class="nc" id="L205">    }</span>
+
+    /**
+     * Called when the building menu needs to be redrawn with new values in the labels.
+     */
+    public void update() {
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        if (GameState.gameOver) {</span>
+<span class="nc" id="L212">            buildingInfoLabel.setText(&quot;&quot;);</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        } else if (world.selectedBuilding == null) {</span>
+<span class="nc" id="L214">            buildingInfoLabel.setText(&quot;&quot;);</span>
+        }
+<span class="nc" id="L216">    }</span>
+
+    public void reset() {
+<span class="nc" id="L219">        buildingInfoLabel.setText(&quot;&quot;);</span>
+<span class="nc" id="L220">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

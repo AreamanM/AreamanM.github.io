@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WorldInputProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim.world</a> &gt; <span class="el_source">WorldInputProcessor.java</span></div><h1>WorldInputProcessor.java</h1><pre class="source lang-java linenums">package io.github.unisim.world;
+
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
+import io.github.unisim.GameState;
+
+/**
+ * Handles input events related to the world, after they have passed through the UiInputProcessor.
+ */
+public class WorldInputProcessor implements InputProcessor {
+  private World world;
+<span class="nc" id="L12">  private int[] cursorPos = new int[2];</span>
+<span class="nc" id="L13">  private int[] cursorPosWhenClicked = new int[2];</span>
+<span class="nc" id="L14">  private boolean clickedOnWorld = false;</span>
+<span class="nc" id="L15">  private boolean draggedSinceClick = true;</span>
+
+<span class="nc" id="L17">  public WorldInputProcessor(World world) {</span>
+<span class="nc" id="L18">    this.world = world;</span>
+<span class="nc" id="L19">  }</span>
+
+
+  @Override
+  public boolean keyDown(int keycode) {
+<span class="nc bnc" id="L24" title="All 3 branches missed.">    switch (keycode) {</span>
+      case Keys.SPACE:
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        GameState.paused = !GameState.paused;</span>
+<span class="nc" id="L27">        break;</span>
+      case Keys.R:
+        // Flip the selected building
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (world.selectedBuilding != null) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">          world.selectedBuilding.flipped = !world.selectedBuilding.flipped;</span>
+<span class="nc" id="L32">          int temp = world.selectedBuilding.size.x;</span>
+<span class="nc" id="L33">          world.selectedBuilding.size.x = world.selectedBuilding.size.y;</span>
+<span class="nc" id="L34">          world.selectedBuilding.size.y = temp;</span>
+<span class="nc" id="L35">          world.selectedBuildingUpdated = true;</span>
+<span class="nc" id="L36">        }</span>
+        break;
+      default:
+        break;
+    }
+<span class="nc" id="L41">    return false;</span>
+  }
+
+
+  @Override
+  public boolean keyUp(int keycode) {
+<span class="nc" id="L47">    return false;</span>
+  }
+
+  @Override
+  public boolean keyTyped(char character) {
+<span class="nc" id="L52">    return false;</span>
+  }
+
+  /**
+   * Detect when the mouse has been clicked and record the cursor postion.
+   * Sets the clickedOnWorld flag, if the mouse has been clicked in a valid
+   * start location.
+   */
+  @Override
+  public boolean touchDown(int x, int y, int pointer, int button) {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    if (GameState.paused) {</span>
+<span class="nc" id="L63">        return false;</span>
+    }
+<span class="nc" id="L65">    clickedOnWorld = true;</span>
+<span class="nc" id="L66">    draggedSinceClick = false;</span>
+<span class="nc" id="L67">    cursorPos[0] = cursorPosWhenClicked[0] = x;</span>
+<span class="nc" id="L68">    cursorPos[1] = cursorPosWhenClicked[1] = y;</span>
+<span class="nc" id="L69">    return true;</span>
+  }
+
+  /**
+   * When the mouse is released, stop tracking the dragging events.
+   */
+  @Override
+  public boolean touchUp(int x, int y, int pointer, int button) {
+<span class="nc" id="L77">    clickedOnWorld = false;</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">    if (!draggedSinceClick &amp;&amp; world.selectedBuilding != null) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">      if (world.placeBuilding()) {</span>
+<span class="nc" id="L80">        draggedSinceClick = true;</span>
+      }
+    }
+<span class="nc" id="L83">    return false;</span>
+  }
+
+  /**
+   * If the mouse has been clicked in a valid location, allow the map to be panned
+   * by clicking and holding the mouse button.
+   */
+  @Override
+  public boolean touchDragged(int x, int y, int pointer) {
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    if (clickedOnWorld) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      if (Math.max(Math.abs(cursorPos[0] - cursorPosWhenClicked[0]),</span>
+<span class="nc" id="L94">          Math.abs(cursorPos[1] - cursorPosWhenClicked[1])) &gt; 5) {</span>
+<span class="nc" id="L95">        draggedSinceClick = true;</span>
+      }
+<span class="nc" id="L97">      world.pan(cursorPos[0] - x, y - cursorPos[1]);</span>
+<span class="nc" id="L98">      cursorPos[0] = x;</span>
+<span class="nc" id="L99">      cursorPos[1] = y;</span>
+<span class="nc" id="L100">      return true;</span>
+    }
+<span class="nc" id="L102">    return false;</span>
+  }
+
+  @Override
+  public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+<span class="nc" id="L107">    return false;</span>
+  }
+
+  @Override
+  public boolean mouseMoved(int x, int y) {
+<span class="nc" id="L112">    return false;</span>
+  }
+
+  /**
+   * Zoom in on the map when the mouse wheel is scrolled.
+   */
+  @Override
+  public boolean scrolled(float amountX, float amountY) {
+<span class="nc" id="L120">    world.zoom(amountY);</span>
+<span class="nc" id="L121">    return true;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

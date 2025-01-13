@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FullscreenInputProcessor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim</a> &gt; <span class="el_source">FullscreenInputProcessor.java</span></div><h1>FullscreenInputProcessor.java</h1><pre class="source lang-java linenums">package io.github.unisim;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.Graphics.Monitor;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
+
+/**
+ * Runs before the WorldInputProcessor and handles any input events generated from the UI.
+ */
+@SuppressWarnings(&quot;OuterTypeFilename&quot;)
+<span class="nc" id="L13">public class FullscreenInputProcessor implements InputProcessor {</span>
+<span class="nc" id="L14">  int[] windowSize = new int[2];</span>
+<span class="nc" id="L15">  boolean fullscreen = false;</span>
+
+  /**
+   * Inform the object about the current window size.
+
+   * @param width  - The new width of the window
+   * @param height - The new height of the window
+   */
+  public void resize(int width, int height) {
+<span class="nc bnc" id="L24" title="All 2 branches missed.">    if (!fullscreen) {</span>
+<span class="nc" id="L25">      windowSize[0] = width;</span>
+<span class="nc" id="L26">      windowSize[1] = height;</span>
+    }
+<span class="nc" id="L28">  }</span>
+
+  /**
+   * Called when a key is pressed and handles logic related to keypresses
+   * within UI components.
+
+   * @param keycode - The unique identifier for the Key pressed.
+   * 
+   * @return whether the event has been handled and needs to be further processed.
+   */
+  public boolean keyDown(int keycode) {
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    switch (keycode) {</span>
+      // Toggle fullscreen
+      case Keys.F11:
+<span class="nc" id="L42">        Monitor currentMonitor = Gdx.graphics.getMonitor();</span>
+<span class="nc" id="L43">        DisplayMode displayMode = Gdx.graphics.getDisplayMode(currentMonitor);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        fullscreen = !fullscreen;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (fullscreen) {</span>
+<span class="nc" id="L46">          Gdx.graphics.setFullscreenMode(displayMode);</span>
+        } else {
+<span class="nc" id="L48">          Gdx.graphics.setWindowedMode(windowSize[0], windowSize[1]);</span>
+        }
+<span class="nc" id="L50">        return true;</span>
+
+      default:
+<span class="nc" id="L53">        return false;</span>
+    }
+  }
+
+  public boolean keyUp(int keycode) {
+<span class="nc" id="L58">    return false;</span>
+  }
+
+  public boolean keyTyped(char character) {
+<span class="nc" id="L62">    return false;</span>
+  }
+
+  @Override
+  public boolean touchDown(int x, int y, int pointer, int button) {
+<span class="nc" id="L67">    return false;</span>
+  }
+
+  public boolean touchUp(int x, int y, int pointer, int button) {
+<span class="nc" id="L71">    return false;</span>
+  }
+
+  public boolean touchDragged(int x, int y, int pointer) {
+<span class="nc" id="L75">    return false;</span>
+  }
+
+  public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+<span class="nc" id="L79">    return false;</span>
+  }
+
+  public boolean mouseMoved(int x, int y) {
+<span class="nc" id="L83">    return false;</span>
+  }
+
+  public boolean scrolled(float amountX, float amountY) {
+<span class="nc" id="L87">    return false;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Building.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim.building</a> &gt; <span class="el_source">Building.java</span></div><h1>Building.java</h1><pre class="source lang-java linenums">package io.github.unisim.building;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import io.github.unisim.Point;
+
+
+/**
+ * Represents a building that can be placed on the map.
+ */
+public class Building {
+  public Texture texture;
+  // we can save memory by storing only the top-left corner and the size of the building.
+  // This works as all buildings are rectangular.
+  public Point location;
+  public Point size;
+  public float textureScale;
+  public Vector2 textureOffset;
+  public boolean flipped;
+  public BuildingType type;
+  public String name;
+  public Integer price;
+
+  /**
+   * Create a new building to display in the building menu and place in the world.
+
+   * @param texture - The image to draw over the space the building occupies
+   * @param textureScale - The scale of the image compared to the source file
+   * @param textureOffset - The offset of the texture in grid tiles
+   * @param location - The (x, y) co-ordinates of the building on the map
+   * @param size - The size (width, height) of the building in map tiles
+   * @param flipped - Whether to render a flipped variant of the building
+   * @param type - The category of building, must be a BuildingType
+   * @param name - The name of the building to display when selected
+   * @param price - The price of the building
+   */
+  public Building(Texture texture, float textureScale, Vector2 textureOffset, Point location,
+<span class="nc" id="L38">      Point size, Boolean flipped, BuildingType type, String name, Integer price) {</span>
+<span class="nc" id="L39">    this.texture = texture;</span>
+<span class="nc" id="L40">    this.location = location;</span>
+<span class="nc" id="L41">    this.size = size;</span>
+<span class="nc" id="L42">    this.textureScale = textureScale;</span>
+<span class="nc" id="L43">    this.textureOffset = textureOffset;</span>
+<span class="nc" id="L44">    this.flipped = flipped;</span>
+<span class="nc" id="L45">    this.type = type;</span>
+<span class="nc" id="L46">    this.name = name;</span>
+<span class="nc" id="L47">    this.price = price;</span>
+<span class="nc" id="L48">  }</span>
+
+  public Point getLocation() {
+<span class="nc" id="L51">      return location;</span>
+  }
+
+  public Point getSize() {
+<span class="nc" id="L55">      return size;</span>
+  }
+
+  public BuildingType getType() {
+<span class="nc" id="L59">      return type;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
