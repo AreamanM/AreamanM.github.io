@@ -11,6 +11,18 @@ h1 {
     padding-left: 3%;
 }
 
+h3 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #182c4c;
+    padding-left: 3%;
+}
+
+h4 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #182c4c;
+    padding-left: 3%;
+}
+
 #pdfs {
     padding-left: 6%;
 }
