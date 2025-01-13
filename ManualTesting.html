@@ -1,0 +1,211 @@
+<p><strong>Test ID: MT_001</strong><br />
+    Description: Building Purchase and Placement Validation<br />
+    Requirements: FR_BUYING<br />
+    Category: Functional Testing<br />
+    Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+    Steps:</p>
+    <ol>
+    <li>Start a new game</li>
+    <li>Check initial money balance</li>
+    <li>Try to select a building that costs more than current balance</li>
+    <li>Earn enough money for a building</li>
+    <li>Select and place an affordable building</li>
+    </ol>
+    <p>Expected Outcome:</p>
+    <ul>
+    <li>Buildings costing more than current balance cannot be placed</li>
+    <li>Affordable buildings can be selected and placed</li>
+    <li>Money deducts correctly after placement</li>
+    </ul>
+
+<p><strong>Test ID: MT_002</strong><br />
+Description: Game Timer and Summary Screen<br />
+Requirements: FR_TIME_LIMIT<br />
+Category: Functional Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Start a new game</li>
+<li>Let timer run to completion (5 minutes)</li>
+<li>Attempt to perform actions after timer expires</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Gane over screen appears when 0 seconds are remaining on the timer</li>
+<li>Final satisfaction score displayed</li>
+<li>Achievements shown if unlocked</li>
+<li>Leaderboard visible</li>
+<li>No further game actions possible</li>
+</ul>
+
+<p><strong>Test ID: MT_003</strong><br />
+Description: Obstacle Building Placement Prevention<br />
+Requirements: FR_OBSTACLES<br />
+Category: Functional Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Start a new game</li>
+<li>Attempt to place buildings on water</li>
+<li>Attempt to place buildings on roads</li>
+<li>Attempt to place buildings on existing buildings</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Building placement prevented on all obstacle types</li>
+<li>Visual indicator shows invalid placement</li>
+<li>No buildings can be placed on obstacles</li>
+</ul>
+
+<p><strong>Test ID: MT_004</strong><br />
+Description: Achievement Menu Functionality<br />
+Requirements: FR_ACHIEVEMENT_MENU<br />
+Category: Interface Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Click achievement button on title screen</li>
+<li>View unlocked/locked achievements</li>
+<li>Check achievement status</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Achievement menu displays all achievements</li>
+<li>Locked/unlocked status clearly shown</li>
+<li>Menu is easily navigable</li>
+</ul>
+
+<p><strong>Test ID: MT_005</strong><br />
+Description: Performance Testing<br />
+Requirements: UR_PERFORMANCE<br />
+Category: Performance Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Run game on minimum-spec computer</li>
+<li>Place multiple buildings rapidly</li>
+<li>Trigger multiple events simultaneously</li>
+<li>Run game for extended period</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Stable frame rate</li>
+<li>No lag when placing buildings</li>
+<li>Smooth UI interactions</li>
+<li>No memory leaks</li>
+<li>No crashes</li>
+</ul>
+
+<p><strong>Test ID: MT_006</strong><br />
+Description: UI Intuitiveness<br />
+Requirements: UR_INTUITION<br />
+Category: Usability Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Start game without tutorial</li>
+<li>Attempt to place buildings</li>
+<li>Try to remove buildings</li>
+<li>React to game events</li>
+<li>Navigate menus</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Clear UI indicators for building placement</li>
+<li>Intuitive controls</li>
+<li>Easy to understand event notifications</li>
+<li>Self-explanatory interface elements</li>
+</ul>
+
+<p><strong>Test ID: MT_007</strong><br />
+Description: Visual Consistency<br />
+Requirements: UR_IMMERSION<br />
+Category: User Experience Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Check all visual elements</li>
+<li>Verify art style consistency</li>
+<li>Check UI theme</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Consistent art style</li>
+<li>Cohesive visual theme</li>
+<li>Clear visual feedback</li>
+</ul>
+
+<p><strong>Test ID: MT_008</strong><br />
+Description: Game Progression<br />
+Requirements: UR_GAME_PROGRESS<br />
+Category: Functional Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Start new game</li>
+<li>Monitor timer progress</li>
+<li>Check year progression</li>
+<li>Wait for game completion</li>
+<li>Verify game over screen statistics</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>5-minute timer works correctly</li>
+<li>Years progress appropriately</li>
+<li>Game over screen shows correct statistics</li>
+</ul>
+
+<p><strong>Test ID: MT_009</strong><br />
+Description: UI Information Display<br />
+Requirements: FR_USER_INTERFACE<br />
+Category: Interface Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Check all UI elements</li>
+<li>Verify information clarity</li>
+<li>Assess information hierarchy</li>
+<li>Check for information overload</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Only essential information shown</li>
+<li>Clear, readable display</li>
+<li>Not overwhelming</li>
+<li>Important information prominent</li>
+</ul>
+
+<p><strong>Test ID: MT_010</strong><br />
+Description: Game Timer Display<br />
+Requirements: FR_TIMER<br />
+Category: Interface Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Start new game</li>
+<li>Monitor timer display</li>
+<li>Check year number updates</li>
+<li>Verify time remaining accuracy</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Timer clearly visible</li>
+<li>Year number updates correctly</li>
+<li>Accurate time remaining display</li>
+</ul>
+
+<p><strong>Test ID: MT_011</strong><br />
+Description: Leaderboard Display<br />
+Requirements: FR_LEADERBOARD_MENU<br />
+Category: Functional Testing<br />
+Author History: Created: 13/12/2024 by Vidhi, Version: 1.0<br />
+Steps:</p>
+<ol>
+<li>Click leaderboard button</li>
+<li>Check top 5 scores display</li>
+</ol>
+<p>Expected Outcome:</p>
+<ul>
+<li>Top 5 scores visible</li>
+<li>Scores properly ordered</li>
+</ul>

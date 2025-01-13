@@ -1,0 +1,16 @@
+body{
+    background-color: rgb(0, 0, 0);
+    box-shadow: inset;
+    padding-left: 5%;
+    padding-top: 5%;
+}
+
+h1 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #182c4c;
+    padding-left: 3%;
+}
+
+#pdfs {
+    padding-left: 6%;
+}
