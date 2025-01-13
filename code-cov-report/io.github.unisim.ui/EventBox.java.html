@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EventBox.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim.ui</a> &gt; <span class="el_source">EventBox.java</span></div><h1>EventBox.java</h1><pre class="source lang-java linenums">package io.github.unisim.ui;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import io.github.unisim.GameState;
+import io.github.unisim.Timer;
+import io.github.unisim.Event;
+
+/**
+ * Create a Title bar with basic info.
+ */
+public class EventBox {
+    private ShapeActor bar;
+<span class="nc" id="L19">    private Table eventTable = new Table();</span>
+<span class="nc" id="L20">    private Skin skin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+<span class="nc" id="L21">    private Label titleLabel = new Label(&quot;Tutorial&quot;, skin);</span>
+<span class="nc" id="L22">    private Label descriptionLabel = new Label(&quot;Welcome to your university, select a building from the bottom to place it. Be careful to manage funds&quot;, skin);</span>
+<span class="nc" id="L23">    private Label moneyLabel = new Label(&quot;&quot;, skin);</span>
+<span class="nc" id="L24">    private Label pointsLabel = new Label(&quot;&quot;, skin);</span>
+    private Timer timer;
+    private Cell&lt;Label&gt; titleLabelCell;
+    private Cell&lt;Label&gt; descriptionLabelCell;
+    private Cell&lt;Label&gt; moneyLabelCell;
+    private Cell&lt;Label&gt; pointsLabelCell;
+    private int currentEventNumber;
+    private Event currentEvent;
+
+    /**
+     * Create a new eventBox and draws its' components onto the provided stage.
+
+     //     * @param stage - The stage on which to draw the eventBox.
+     */
+<span class="nc" id="L38">    public EventBox(Stage stage, Timer timer) {</span>
+<span class="nc" id="L39">        this.timer = timer;</span>
+<span class="nc" id="L40">        currentEventNumber = 0;</span>
+
+        // Event Table
+<span class="nc" id="L43">        titleLabelCell = eventTable.add(titleLabel);</span>
+<span class="nc" id="L44">        titleLabel.setWrap(true);</span>
+<span class="nc" id="L45">        eventTable.row();</span>
+<span class="nc" id="L46">        descriptionLabelCell = eventTable.add(descriptionLabel);</span>
+<span class="nc" id="L47">        descriptionLabel.setWrap(true);</span>
+<span class="nc" id="L48">        eventTable.row();</span>
+<span class="nc" id="L49">        moneyLabelCell = eventTable.add(moneyLabel);</span>
+<span class="nc" id="L50">        eventTable.row();</span>
+<span class="nc" id="L51">        pointsLabelCell = eventTable.add(pointsLabel);</span>
+
+        //add actors
+<span class="nc" id="L54">        bar = new ShapeActor(Color.SLATE);</span>
+<span class="nc" id="L55">        stage.addActor(bar);</span>
+<span class="nc" id="L56">        stage.addActor(eventTable);</span>
+<span class="nc" id="L57">    }</span>
+
+    /**
+     * Called when the UI needs to be updated, usually on every frame.
+     */
+    public void update() {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (timer.getEventNumber() != currentEventNumber) {</span>
+<span class="nc" id="L64">            currentEvent = new Event(timer.getEventNumber(), GameState.satisfaction);</span>
+<span class="nc" id="L65">            titleLabel.setText(currentEvent.getEventTitle());</span>
+<span class="nc" id="L66">            descriptionLabel.setText(currentEvent.getEventDescription());</span>
+<span class="nc" id="L67">            moneyLabel.setText(&quot;Money: &quot; + currentEvent.getEventMoney());</span>
+<span class="nc" id="L68">            pointsLabel.setText(&quot;Satisfaction: &quot; + currentEvent.getEventPoints());</span>
+
+<span class="nc" id="L70">            currentEventNumber = timer.getEventNumber();</span>
+<span class="nc" id="L71">            GameState.updateBalance((currentEvent.getEventMoney()));</span>
+<span class="nc" id="L72">            GameState.increaseSatisfaction(currentEvent.getEventPoints());</span>
+        }
+<span class="nc" id="L74">    }</span>
+
+    /**
+     * Update the bounds of the background &amp; table actors to fit the new size of the screen.
+
+     * @param width - The new width of the screen in pixels.
+     * @param height - The enw height of the screen in pixels.
+     */
+    public void resize(int width, int height) {
+<span class="nc" id="L83">        bar.setBounds(0, height * 0.635f, width * 0.22f, height * 0.315f);</span>
+<span class="nc" id="L84">        eventTable.setBounds(width * 0.01f, height * 0.77f, width * 0.2f, height * 0.05f);</span>
+
+
+<span class="nc" id="L87">        titleLabel.setFontScale(height * 0.002f);</span>
+<span class="nc" id="L88">        titleLabelCell.width(width * 0.2f);</span>
+<span class="nc" id="L89">        titleLabelCell.padBottom(height * 0.02f);</span>
+<span class="nc" id="L90">        descriptionLabel.setFontScale(height * 0.0015f);</span>
+<span class="nc" id="L91">        descriptionLabelCell.width(width * 0.2f);</span>
+<span class="nc" id="L92">        descriptionLabelCell.padBottom(height * 0.02f);</span>
+<span class="nc" id="L93">        moneyLabel.setFontScale(height * 0.002f);</span>
+<span class="nc" id="L94">        moneyLabelCell.width(width * 0.2f);</span>
+<span class="nc" id="L95">        moneyLabelCell.padBottom(height * 0.02f);</span>
+<span class="nc" id="L96">        pointsLabel.setFontScale(height * 0.002f);</span>
+<span class="nc" id="L97">        pointsLabelCell.width(width * 0.2f);</span>
+
+
+<span class="nc" id="L100">    }</span>
+
+    public void reset() {
+<span class="nc" id="L103">        titleLabel.setText(&quot;Tutorial&quot;);</span>
+<span class="nc" id="L104">        descriptionLabel.setText(&quot;Welcome to your university, select a building from the bottom to place it. Be careful to manage funds&quot;);</span>
+<span class="nc" id="L105">        moneyLabel.setText(&quot;&quot;);</span>
+<span class="nc" id="L106">        pointsLabel.setText(&quot;&quot;);</span>
+<span class="nc" id="L107">        currentEventNumber = 0;</span>
+<span class="nc" id="L108">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameOverMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim.ui</a> &gt; <span class="el_source">GameOverMenu.java</span></div><h1>GameOverMenu.java</h1><pre class="source lang-java linenums">package io.github.unisim.ui;
+
+import io.github.unisim.Leaderboard;
+import io.github.unisim.Achievements;
+import io.github.unisim.building.BuildingManager;
+import io.github.unisim.world.SatisfactionCalculator;
+
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import io.github.unisim.GameState;
+import io.github.unisim.world.World;
+
+import java.util.List;
+
+/**
+ * Menu displayed when the game timer runs out.
+ * - Allows the player to input their name.
+ * - Saves the player's final score to the leaderboard.
+ * - Displays the top 5 scores.
+ */
+public class GameOverMenu {
+<span class="nc" id="L31">    private World world = new World();</span>
+    private Stage stage;
+    private Skin skin;
+<span class="nc" id="L34">    private ShapeActor bar = new ShapeActor(GameState.UISecondaryColour);</span>
+    private Table table;
+    private TextButton saveScoreButton;
+    private TextButton mainMenuButton;
+    private Label topScoresLabel;
+    private Label instructionLabel;
+    private Label AchievementsLabel;
+    private Label scoreLabel;
+    private Label titleLabel;
+    private TextField nameInputField;         // Text field for player name input
+    private Cell&lt;TextButton&gt; buttonCell;
+<span class="nc" id="L45">    private InputMultiplexer inputMultiplexer = new InputMultiplexer();</span>
+    private Leaderboard leaderboard; // Manages leaderboard operations.
+    private SatisfactionCalculator satisfactionCalculator; // Calculates satisfaction score
+<span class="nc" id="L48">    private Achievements achievements = new Achievements(); // Manages achievements</span>
+    private int score; // Player's satisfaction score
+    private int achievementTotal; // Total points from unlocked achievements
+    private int finalScore; // Player's final score
+
+    /**
+     * Constructor for GameOverMenu.
+     * - Initializes UI components and calculates the final score.
+     */
+<span class="nc" id="L57">    public GameOverMenu() {</span>
+
+<span class="nc" id="L59">        stage = new Stage(new ScreenViewport());</span>
+<span class="nc" id="L60">        table = new Table();</span>
+<span class="nc" id="L61">        skin = GameState.defaultSkin;</span>
+
+        // Initialize the LeaderboardManager
+<span class="nc" id="L64">        leaderboard = Leaderboard.getInstance();</span>
+
+        //Title label
+<span class="nc" id="L67">        titleLabel = new Label(&quot;Game Over!&quot;, skin);</span>
+
+        // Score label
+<span class="nc" id="L70">        scoreLabel = new Label(&quot;Your final score: &quot;, skin);</span>
+
+        // Instruction label
+<span class="nc" id="L73">        instructionLabel = new Label(&quot;Enter your name to save your score:&quot;, skin);</span>
+
+        // Text field for player name input
+<span class="nc" id="L76">        nameInputField = new TextField(&quot;&quot;, skin);</span>
+<span class="nc" id="L77">        nameInputField.setMessageText(&quot;Your Name&quot;); // Placeholder text</span>
+
+        // Button to save the score
+<span class="nc" id="L80">        saveScoreButton = new TextButton(&quot;Save Score&quot;, skin);</span>
+<span class="nc" id="L81">        saveScoreButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+<span class="nc" id="L84">                String playerName = nameInputField.getText().trim();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">                if (!playerName.isEmpty()) {</span>
+<span class="nc" id="L86">                    leaderboard.updateScores(finalScore, playerName); // Save the score to the leaderboard</span>
+<span class="nc" id="L87">                    leaderboard.toCsvFile(); // Save leaderboard to a CSV file</span>
+<span class="nc" id="L88">                    updateLeaderboardDisplay(); // Update the leaderboard display</span>
+<span class="nc" id="L89">                    instructionLabel.setText(&quot;Score saved!&quot;); // Feedback to player</span>
+                } else {
+<span class="nc" id="L91">                    instructionLabel.setText(&quot;Name cannot be empty. Try again.&quot;);</span>
+                }
+<span class="nc" id="L93">            }</span>
+        });
+
+        // Label to display the leaderboard
+<span class="nc" id="L97">        topScoresLabel = new Label(&quot;Top 5 Scores:\n&quot;, skin);</span>
+
+        // Label to display achievements
+<span class="nc" id="L100">        AchievementsLabel = new Label(&quot;Unlocked Achievements:\n&quot;, skin);</span>
+
+        // Return to Main Menu button
+<span class="nc" id="L103">        mainMenuButton = new TextButton(&quot;Return to Main Menu&quot;, skin);</span>
+<span class="nc" id="L104">        mainMenuButton.addListener(new ClickListener() {</span>
+            @Override
+            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
+                // Switch to the Start Menu screen
+<span class="nc" id="L108">                GameState.resetGameValues();</span>
+<span class="nc" id="L109">                GameState.currentScreen = GameState.startScreen;</span>
+<span class="nc" id="L110">            }</span>
+        });
+
+        // Arrange UI components using the table layout
+<span class="nc" id="L114">        table.setFillParent(true); // Table fills the entire stage</span>
+<span class="nc" id="L115">        table.center();</span>
+<span class="nc" id="L116">        table.add(titleLabel).padBottom(20);</span>
+<span class="nc" id="L117">        table.row();</span>
+<span class="nc" id="L118">        table.add(scoreLabel).padBottom(20); // Display final score</span>
+<span class="nc" id="L119">        table.row();</span>
+<span class="nc" id="L120">        table.add(instructionLabel).padBottom(10);</span>
+<span class="nc" id="L121">        table.row();</span>
+<span class="nc" id="L122">        table.add(nameInputField).width(300).padBottom(20);</span>
+<span class="nc" id="L123">        table.row();</span>
+<span class="nc" id="L124">        table.add(saveScoreButton).width(200).height(50).padBottom(20);</span>
+<span class="nc" id="L125">        table.row();</span>
+<span class="nc" id="L126">        table.add(topScoresLabel).padBottom(20);</span>
+<span class="nc" id="L127">        table.row();</span>
+<span class="nc" id="L128">        table.add(AchievementsLabel).padBottom(20);</span>
+<span class="nc" id="L129">        table.row();</span>
+<span class="nc" id="L130">        buttonCell = table.add(mainMenuButton).width(200).height(60);</span>
+
+        // Add the table and bar to the stage
+<span class="nc" id="L133">        stage.addActor(bar);</span>
+<span class="nc" id="L134">        stage.addActor(table);</span>
+
+        // Input processors for handling user interaction
+<span class="nc" id="L137">        inputMultiplexer.addProcessor(GameState.fullscreenInputProcessor);</span>
+<span class="nc" id="L138">        inputMultiplexer.addProcessor(stage);</span>
+
+        // Initial display of the leaderboard and achievements
+<span class="nc" id="L141">        updateLeaderboardDisplay();</span>
+<span class="nc" id="L142">    }</span>
+
+    /**
+     * Calculates the final score by combining satisfaction and achievements.
+     */
+    private void calculateFinalScore() {
+<span class="nc" id="L148">        score = GameState.satisfaction; // Retrieve satisfaction score</span>
+<span class="nc" id="L149">        finalScore = score + achievementTotal; // Combine satisfaction and achievement effects</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (finalScore &lt; 0) {</span>
+<span class="nc" id="L151">            finalScore = 0;</span>
+        }
+<span class="nc" id="L153">        System.out.println(&quot;Score: &quot; + score + &quot; Bonus: &quot; + achievementTotal +</span>
+            &quot; Final Score: &quot; + finalScore); // Debug log for final score calculation
+<span class="nc" id="L155">        StringBuilder formattedScore = new StringBuilder(&quot;Your Final Score: &quot;);</span>
+<span class="nc" id="L156">        formattedScore.append(finalScore);</span>
+<span class="nc" id="L157">        scoreLabel.setText(formattedScore.toString());</span>
+<span class="nc" id="L158">    }</span>
+
+    /**
+     * Updates the achievements display with the unlocked achievements.
+     */
+    private void updateAchievementsDisplay() {
+<span class="nc" id="L164">        achievements = new Achievements();</span>
+<span class="nc" id="L165">        achievements.checkAllAchievements();</span>
+<span class="nc" id="L166">        StringBuilder formattedAchievements = new StringBuilder(&quot;Unlocked Achievements:\n&quot;);</span>
+<span class="nc" id="L167">        boolean achievementUnlocked = false; // Track if any achievements are unlocked.</span>
+
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        for (var entry : achievements.getAchievements().entrySet()) { // Iterate through achievements</span>
+//            System.out.println(&quot;test&quot;);
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            if (entry.getValue().achieved) { // Check if achievement is unlocked</span>
+<span class="nc" id="L172">                formattedAchievements.append(entry.getKey())</span>
+<span class="nc" id="L173">                    .append(&quot;: &quot;)</span>
+<span class="nc" id="L174">                    .append(entry.getValue().description)</span>
+<span class="nc" id="L175">                    .append(&quot; (&quot;)</span>
+<span class="nc" id="L176">                    .append(entry.getValue().effect)</span>
+<span class="nc" id="L177">                    .append(&quot; points)\n&quot;);</span>
+                // Debug log unlocked achievements
+//                System.out.println(&quot;Achievement Unlocked: &quot; + entry.getKey() + &quot; - &quot; + entry.getValue().description);
+<span class="nc" id="L180">                achievementUnlocked = true; // Mark that at least one achievement is unlocked.</span>
+            }
+<span class="nc" id="L182">        }</span>
+
+        // If no achievements are unlocked, display a specific message.
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        if (!achievementUnlocked) {</span>
+<span class="nc" id="L186">            formattedAchievements.append(&quot;No achievements to display!\n&quot;);</span>
+        }
+<span class="nc" id="L188">        achievementTotal = achievements.calculateAchievementEffects();</span>
+<span class="nc" id="L189">        AchievementsLabel.setText(formattedAchievements.toString()); // Updates achievements label</span>
+<span class="nc" id="L190">    }</span>
+
+    /**
+     * Updates the leaderboard display with the latest top scores.
+     */
+    private void updateLeaderboardDisplay() {
+<span class="nc" id="L196">        StringBuilder formattedScores = new StringBuilder(&quot;Top 5 Scores:\n&quot;);</span>
+<span class="nc" id="L197">        List&lt;String&gt; topScores = leaderboard.getFormattedTopScores();</span>
+
+<span class="nc bnc" id="L199" title="All 2 branches missed.">        for (String score : topScores) {</span>
+<span class="nc" id="L200">            formattedScores.append(score).append(&quot;\n&quot;);</span>
+<span class="nc" id="L201">        }</span>
+
+<span class="nc" id="L203">        topScoresLabel.setText(formattedScores.toString());</span>
+<span class="nc" id="L204">    }</span>
+
+    /**
+     * Renders the Game Over Menu.
+     *
+     * @param delta The time elapsed since the last frame.
+     */
+    public void render(float delta) {
+<span class="nc" id="L212">        stage.act(delta);</span>
+<span class="nc" id="L213">        stage.draw();</span>
+<span class="nc" id="L214">        updateAchievementsDisplay();</span>
+<span class="nc" id="L215">        calculateFinalScore();</span>
+
+<span class="nc" id="L217">    }</span>
+
+    /**
+     * Resizes the UI components when the window is resized.
+     *
+     * @param width  The new window width.
+     * @param height The new window height.
+     */
+    public void resize(int width, int height) {
+<span class="nc" id="L226">        stage.getViewport().update(width, height, true);</span>
+<span class="nc" id="L227">        table.setBounds(0, height * 0.01f, width, height * 0.94f);</span>
+<span class="nc" id="L228">        bar.setBounds(0, 0, width, height * 0.2f);</span>
+<span class="nc" id="L229">        buttonCell.width(width * 0.3f).height(height * 0.1f);</span>
+<span class="nc" id="L230">        titleLabel.setFontScale(height * 0.005f);</span>
+<span class="nc" id="L231">        scoreLabel.setFontScale(height * 0.002f);</span>
+<span class="nc" id="L232">        topScoresLabel.setFontScale(height * 0.002f);</span>
+<span class="nc" id="L233">        AchievementsLabel.setFontScale(height * 0.002f);</span>
+<span class="nc" id="L234">    }</span>
+
+    /**
+     * Provides the input processor for handling input events.
+     *
+     * @return The InputMultiplexer containing the input processors.
+     */
+    public InputProcessor getInputProcessor() {
+<span class="nc" id="L242">        return inputMultiplexer;</span>
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

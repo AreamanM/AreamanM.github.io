@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameState.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim</a> &gt; <span class="el_source">GameState.java</span></div><h1>GameState.java</h1><pre class="source lang-java linenums">package io.github.unisim;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import io.github.unisim.building.BuildingType;
+import io.github.unisim.ui.GameScreen;
+import io.github.unisim.ui.LeaderboardScreen;
+import io.github.unisim.ui.StartMenuScreen;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+
+/**
+ * Contains a collection of settings and references that should be available globally.
+ */
+<span class="nc" id="L23">public class GameState {</span>
+<span class="nc" id="L24">    public static Color UIPrimaryColour = new Color(0.250f, 0.326f, 0.865f, 1.0f);</span>
+<span class="nc" id="L25">    public static Color UISecondaryColour = new Color(0.722f, 0.646f, 0.953f, 1.0f);</span>
+<span class="nc" id="L26">    public static Skin defaultSkin = new Skin(Gdx.files.internal(&quot;ui/uiskin.json&quot;));</span>
+<span class="nc" id="L27">    public static InputProcessor fullscreenInputProcessor = new FullscreenInputProcessor();</span>
+<span class="nc" id="L28">    public static Screen gameScreen = new GameScreen();</span>
+<span class="nc" id="L29">    public static Screen leaderboardScreen = new LeaderboardScreen();</span>
+<span class="nc" id="L30">    public static Screen startScreen = new StartMenuScreen();</span>
+    public static Screen currentScreen;
+    // Create an unmodifiable set containing the IDs of all buildable tiles
+    // we use a set to make searching more efficient
+<span class="nc" id="L34">    public static Set&lt;Integer&gt; buildableTiles = Stream.of(</span>
+<span class="nc" id="L35">        14, 15).collect(Collectors.toUnmodifiableSet()</span>
+    );
+<span class="nc" id="L37">    public static boolean paused = true;</span>
+<span class="nc" id="L38">    public static boolean gameOver = false;</span>
+<span class="nc" id="L39">    public static int satisfaction = 0; // the initial satisfaction score</span>
+    public static final int MAX_SATISFACTION = 100;
+<span class="nc" id="L41">    public static int balance = 5000;</span>
+<span class="nc" id="L42">    public static Map&lt;BuildingType, Integer&gt; buildingCounts = new HashMap&lt;&gt;();</span>
+    /**
+     * update the satisfaction, but only increasing
+     * @param delta increasement
+     */
+    public static void increaseSatisfaction(int delta) {
+<span class="nc" id="L48">        int previousSatisfaction = satisfaction;</span>
+<span class="nc" id="L49">        satisfaction += delta;</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (satisfaction &gt; MAX_SATISFACTION) {</span>
+<span class="nc" id="L51">            satisfaction = MAX_SATISFACTION;</span>
+        }
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (satisfaction &lt; 0) {</span>
+<span class="nc" id="L54">            satisfaction = 0;</span>
+        }
+<span class="nc" id="L56">        System.out.println(&quot;Previous Satisfaction: &quot; + previousSatisfaction +</span>
+            &quot;, Delta: &quot; + delta +
+            &quot;, New Satisfaction: &quot; + satisfaction);
+<span class="nc" id="L59">    }</span>
+
+
+    public static void updateBalance(int delta) {
+
+<span class="nc" id="L64">        balance += delta;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if (balance &lt; 0) {</span>
+<span class="nc" id="L66">            balance = 0;</span>
+        }
+<span class="nc" id="L68">    }</span>
+
+    public static void resetGameValues() {
+<span class="nc" id="L71">        satisfaction = 0;</span>
+<span class="nc" id="L72">        balance = 5000;</span>
+<span class="nc" id="L73">        Map&lt;BuildingType, Integer&gt; buildingCounts = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L74">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

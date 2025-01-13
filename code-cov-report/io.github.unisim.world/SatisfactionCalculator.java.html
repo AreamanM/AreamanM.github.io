@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SatisfactionCalculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">core</a> &gt; <a href="index.source.html" class="el_package">io.github.unisim.world</a> &gt; <span class="el_source">SatisfactionCalculator.java</span></div><h1>SatisfactionCalculator.java</h1><pre class="source lang-java linenums">package io.github.unisim.world;
+
+import io.github.unisim.building.Building;
+import io.github.unisim.building.BuildingManager;
+import io.github.unisim.building.BuildingType;
+import io.github.unisim.GameState;
+
+import java.lang.constant.Constable;
+import java.util.Map;
+
+<span class="nc" id="L11">public class SatisfactionCalculator {</span>
+
+    /**
+     * Calculates and updates the satisfaction score when a new building is placed.
+     *
+     * @param newBuilding The newly placed building.
+     * @param buildingsManager The manager handling existing buildings and placement logic.
+     */
+    public static void calculateAndUpdateSatisfaction(Building newBuilding, BuildingManager buildingsManager) {
+        // Base satisfaction for any new building placement.
+<span class="nc" id="L21">        int baseSatisfaction = 5;</span>
+
+        // Check if this is the first building of its type.
+<span class="nc bnc" id="L24" title="All 2 branches missed.">        boolean isFirstBuilding = buildingsManager.getBuildingCount(BuildingType.LEARNING) == 0 &amp;&amp;</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            buildingsManager.getBuildingCount(BuildingType.RECREATION) == 0 &amp;&amp;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">            buildingsManager.getBuildingCount(BuildingType.EATING) == 0 &amp;&amp;</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">            buildingsManager.getBuildingCount(BuildingType.SLEEPING) == 0;</span>
+
+        // Directly increase satisfaction for the first building.
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (isFirstBuilding) {</span>
+<span class="nc" id="L31">            GameState.increaseSatisfaction(baseSatisfaction);</span>
+<span class="nc" id="L32">            System.out.println(&quot;Building: &quot; + newBuilding.name + &quot;, Base: &quot; + baseSatisfaction +</span>
+                &quot;, Bonus: 0, Final: &quot; + baseSatisfaction);
+<span class="nc" id="L34">            return;</span>
+        }
+        // Define weightings for distance-based bonuses.
+<span class="nc" id="L37">        Map&lt;BuildingType, Double&gt; typeWeights = Map.of(</span>
+<span class="nc" id="L38">            BuildingType.LEARNING, 0.3,</span>
+<span class="nc" id="L39">            BuildingType.SLEEPING, 0.2,</span>
+<span class="nc" id="L40">            BuildingType.EATING, 0.25,</span>
+<span class="nc" id="L41">            BuildingType.RECREATION, 0.4</span>
+        );
+
+<span class="nc" id="L44">        double totalDistanceBonus = 0.0;</span>
+
+<span class="nc" id="L46">        double nearestDistance = 0;</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (Map.Entry&lt;BuildingType, Double&gt; entry : typeWeights.entrySet()) {</span>
+<span class="nc" id="L48">            BuildingType type = entry.getKey();</span>
+<span class="nc" id="L49">            double weight = entry.getValue();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">            if (newBuilding.name == &quot;Basketball Court&quot;) {weight *= 0.5;}</span>
+<span class="nc" id="L51">            nearestDistance = buildingsManager.calculateNearestDistance(newBuilding, type);</span>
+
+<span class="nc" id="L53">            double distanceBonus = 0.0;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (nearestDistance != Double.MAX_VALUE) {</span>
+                // Calculate bonus inversely proportional to distance.
+<span class="nc" id="L56">                distanceBonus = (weight * 35) / Math.sqrt(1 + nearestDistance);</span>
+            }
+<span class="nc" id="L58">            totalDistanceBonus += distanceBonus;</span>
+<span class="nc" id="L59">        }</span>
+        // Cap the bonus to prevent excessive satisfaction increases.
+<span class="nc" id="L61">        totalDistanceBonus = Math.min(totalDistanceBonus, 10);</span>
+
+<span class="nc" id="L63">        int finalIncrease = (int) (baseSatisfaction + totalDistanceBonus);</span>
+
+        // Update the game's satisfaction score.
+<span class="nc" id="L66">        GameState.increaseSatisfaction(finalIncrease);</span>
+
+<span class="nc" id="L68">        System.out.println(&quot;Building: &quot; + newBuilding.name + &quot;, Base: &quot; + baseSatisfaction +</span>
+            &quot;, Bonus: &quot; + totalDistanceBonus + &quot;, Final: &quot; + finalIncrease);
+<span class="nc" id="L70">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
