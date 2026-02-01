@@ -18,11 +18,43 @@
 </head>
 
 <body>
-    <h1>The wall</h1>
-    <div class="subtitle">an unassorted collection of short ideas I want to archive</div>
+    <header class="site-header">
+        <div class="title-row">
+            <button id="new-post" class="new-post-btn" aria-label="Create new post">New Post</button>
+            <h1>The wall</h1>
+        </div>
+        <div class="subtitle">an unassorted collection of short ideas I want to archive</div>
+    </header>
     <div id="wall"></div>
 
-    <script src="script.js"></script>
+    <!-- New Post Modal -->
+    <div id="new-post-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="new-post-title">
+        <div class="modal-content" role="document">
+            <header class="modal-header">
+                <h2 id="new-post-title">Create new post</h2>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </header>
+            <form id="new-post-form">
+                <label class="field">
+                    <span class="label-text">Username</span>
+                    <input id="post-username" type="text" maxlength="30" required>
+                </label>
+                <label class="field">
+                    <span class="label-text">Text</span>
+                    <textarea id="post-text" maxlength="280" rows="6" required></textarea>
+                </label>
+                <div class="modal-actions">
+                    <div class="char-preview"><span id="post-char-count">0</span>/280</div>
+                    <div class="buttons">
+                        <button type="button" class="btn-cancel">Cancel</button>
+                        <button type="submit" class="btn-post">Post</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
     <div class="icon-attribution">
         <a href="https://www.flaticon.com/free-icons/penguin" title="penguin icons" target="_blank"
             rel="noopener">favicon: Penguin icons created by Mihimihi - Flaticon</a>
