@@ -129,6 +129,11 @@ const usernameInput = document.getElementById('post-username');
 const textInput = document.getElementById('post-text');
 const postCharCount = document.getElementById('post-char-count');
 
+// About modal elements
+const aboutBtn = document.getElementById('about-btn');
+const aboutModal = document.getElementById('about-modal');
+const aboutModalClose = aboutModal ? aboutModal.querySelector('.modal-close') : null;
+
 newPostBtn.addEventListener('click', openModal);
 modalClose.addEventListener('click', closeModal);
 cancelBtn.addEventListener('click', closeModal);
@@ -137,6 +142,32 @@ cancelBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', (e) => {
     if (e.target === modal) closeModal();
 });
+
+// --- About modal wiring ---
+if (aboutBtn && aboutModal) {
+    aboutBtn.addEventListener('click', () => {
+        aboutModal.classList.remove('hidden');
+        aboutModal.setAttribute('aria-hidden', 'false');
+        // focus the close button for accessibility
+        if (aboutModalClose) aboutModalClose.focus();
+    });
+
+    // close via the modal close button
+    if (aboutModalClose) aboutModalClose.addEventListener('click', () => {
+        aboutModal.classList.add('hidden');
+        aboutModal.setAttribute('aria-hidden', 'true');
+        aboutBtn.focus();
+    });
+
+    // close when clicking outside content
+    aboutModal.addEventListener('click', (e) => {
+        if (e.target === aboutModal) {
+            aboutModal.classList.add('hidden');
+            aboutModal.setAttribute('aria-hidden', 'true');
+            aboutBtn.focus();
+        }
+    });
+}
 
 // update char count inside modal
 textInput.addEventListener('input', () => {

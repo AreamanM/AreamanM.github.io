@@ -117,6 +117,33 @@ h1 {
     outline-offset: 2px;
 }
 
+/* About button (beside New Post) */
+.about-btn {
+    position: absolute;
+    left: 120px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f4d35e; /* medium yellow */
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.45);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    z-index: 1000;
+}
+.about-btn:hover {
+    transform: translateY(-52%);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+}
+.about-btn:focus {
+    outline: 2px solid rgba(255,255,255,0.12);
+    outline-offset: 2px;
+}
+
 /* Modal & form styling for new post */
 .modal.hidden { display: none; }
 .modal {
