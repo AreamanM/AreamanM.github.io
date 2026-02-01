@@ -1,6 +1,6 @@
 // Firebase + Firestore integration (modular SDK imports)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, serverTimestamp, query, orderBy, limit, onSnapshot, getDocs, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 // Firebase config provided
 const firebaseConfig = {
@@ -17,15 +17,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Fallback sample posts (displayed when DB empty)
-const postsFallback = [
-    "Pretty much all relationship problems are due to a mismatch in expectation",
-    "Maths, Factorio, Redstone, and programming are all the same things. You build abstractions from builtin primitives and use those abstractions to assemble complex contraptions",
-    "Sometimes wanting something too much becomes a detriment towards getting it",
-    "There are times when things just don't go your way, and that's okay. There's a lot of value in teaching yourself to let go of what you can't control and focus on the things that are",
-    "I think I spend too much time worrying about the future instead of living in the present. There are so many moments between now and tomorrow, and each decides what tomorrow will look like",
-    "A lot of complexity in software often comes from not being able to trust your input"
-];
+// Enable IndexedDB persistence for offline caching (reduces reads on reload)
+enableIndexedDbPersistence(db).then(() => {
+    console.log('Firestore persistence enabled');
+}).catch((err) => {
+    // failed-precondition = multiple tabs open, unimplemented = browser not supported
+    console.warn('Could not enable persistence:', err && err.code ? err.code : err);
+});
 
 const wall = document.getElementById("wall");
 
@@ -85,6 +83,20 @@ function formatTimestamp(date) {
 // Real-time listener for posts collection
 const postsCol = collection(db, 'posts');
 const q = query(postsCol, orderBy('createdAt', 'desc'), limit(200));
+
+// Try a cache-first load so repeat visits can render instantly from IndexedDB
+(async () => {
+    try {
+        const cached = await getDocs(q, { source: 'cache' });
+        if (!cached.empty) {
+            wall.innerHTML = '';
+            cached.forEach(doc => renderPost(doc.data()));
+        }
+    } catch (err) {
+        // cache miss or persistence not available
+        console.info('Cache load skipped:', err && err.code ? err.code : err);
+    }
+})();
 
 onSnapshot(q, (snapshot) => {
     wall.innerHTML = '';
